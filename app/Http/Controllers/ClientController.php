@@ -47,11 +47,11 @@ class ClientController extends Controller
         return view('show', compact('client'));
     }
 
-    public function edit($id)
-    {
-        $client = Client::with('details')->findOrFail($id);
-        return view('clients.edit', compact('client'));
-    }
+    // public function edit($id)
+    // {
+    //     $client = Client::with('details')->findOrFail($id);
+    //     return view('clients.edit', compact('client'));
+    // }
     public function update(Request $request, Client $client)
     {
         $request->validate([
@@ -73,5 +73,11 @@ class ClientController extends Controller
 
         return redirect()->route('clients.show', $client->id)->with('success', 'Client updated successfully!');
     }
+    public function destroy(Client $client)
+    {
+        $client->delete();
+        return redirect()->route('clients.index')->with('success', 'Client deleted successfully!');
+    }
+
 
 }
