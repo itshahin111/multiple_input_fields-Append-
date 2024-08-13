@@ -52,32 +52,31 @@ class ClientController extends Controller
     //     $client = Client::with('details')->findOrFail($id);
     //     return view('clients.edit', compact('client'));
     // }
-    public function update(Request $request, Client $client)
-    {
-        $request->validate([
-            'inputs.*.first_name' => 'required|string|max:255',
-            'inputs.*.last_name' => 'required|string|max:255',
-            'inputs.*.email' => 'nullable|email|max:255|unique:clients,email,' . $client->id,
-            'inputs.*.phone' => 'nullable|string|max:15|unique:clients,phone,' . $client->id,
-            'inputs.*.address' => 'nullable|string|max:255',
-        ]);
+    // public function update(Request $request, Client $client)
+    // {
+    //     $request->validate([
+    //         'inputs.*.first_name' => 'required|string|max:255',
+    //         'inputs.*.last_name' => 'required|string|max:255',
+    //         'inputs.*.email' => 'nullable|email|max:255|unique:clients,email,' . $client->id,
+    //         'inputs.*.phone' => 'nullable|string|max:15|unique:clients,phone,' . $client->id,
+    //         'inputs.*.address' => 'nullable|string|max:255',
+    //     ]);
 
-        $client->update($request->only(['first_name', 'last_name', 'email', 'phone', 'address']));
+    //     $client->update($request->only(['first_name', 'last_name', 'email', 'phone', 'address']));
 
-        foreach ($request->inputs as $index => $input) {
-            $client->details()->updateOrCreate(
-                ['id' => $input['id'] ?? null], // Assuming there is an `id` field in details
-                $input
-            );
-        }
+    //     foreach ($request->inputs as $index => $input) {
+    //         $client->details()->updateOrCreate(
+    //             ['id' => $input['id'] ?? null], // Assuming there is an `id` field in details
+    //             $input
+    //         );
+    //     }
 
-        return redirect()->route('clients.show', $client->id)->with('success', 'Client updated successfully!');
-    }
+    //     return redirect()->route('clients.show', $client->id)->with('success', 'Client updated successfully!');
+    // }
     public function destroy(Client $client)
     {
         $client->delete();
-        return redirect()->route('clients.index')->with('success', 'Client deleted successfully!');
+        return redirect()->route('clients.all')->with('success', 'Client deleted successfully!');
     }
-
 
 }
